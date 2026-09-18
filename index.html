@@ -2,259 +2,147 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dollar to BDT Calculator</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;padding:16px 12px;background:#f3f4f6;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#1f2937}
-.wrap{max-width:1100px;margin:auto}
-.card,.summary{background:#fff;border:1px solid #e5e7eb;border-radius:16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.wrap{max-width:1050px;margin:auto}
+.card,.summary{background:#fff;border:1px solid #e5e7eb;border-radius:16px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
 .card{overflow:hidden}
-.top{display:flex;justify-content:space-between;align-items:center;padding:16px 18px}
-.title{font-size:22px;font-weight:800;letter-spacing:-0.4px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:14px 18px}
+.title{font-size:21px;font-weight:800;letter-spacing:-0.3px}
 .addwrap{position:relative}
 .topbtn{width:36px;height:36px;padding:0;background:#1f2937;color:#fff;border:0;border-radius:8px;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
 .topbtn:hover{background:#000}
-.menu{display:none;position:absolute;right:0;top:44px;z-index:50;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:6px;min-width:170px;box-shadow:0 10px 25px -5px rgba(0,0,0,.12)}
+.menu{display:none;position:absolute;right:0;top:44px;z-index:50;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:6px;min-width:170px;box-shadow:0 10px 25px -5px rgba(0,0,0,.15)}
 .menu.open{display:block}
 .menu button{display:block;width:100%;text-align:left;background:#fff;color:#374151;border:0;padding:9px 12px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s}
 .menu button:hover{background:#f3f4f6;color:#111}
 
-/* Grid Layout: Generous space allocated to DOLLAR ($) */
-.head,.account{display:grid;grid-template-columns:1.1fr 2.8fr 0.55fr 0.85fr 1.25fr 36px;gap:10px;align-items:center}
+/* DESKTOP TABLE VIEW */
+.head,.account{display:grid;grid-template-columns:1.1fr 2.8fr 0.6fr 0.95fr 1.2fr 36px;gap:10px;align-items:center}
 .head{padding:10px 18px;background:#fafafa;border-bottom:1px solid #f0f0f0;color:#6b7280;font-size:11px;font-weight:700;letter-spacing:0.5px}
 .group{border-top:1px solid #f0f2f5}
 .grouphead{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;background:#fcfcfc}
 .groupname{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700}
 .appicon{width:28px;height:28px;border-radius:7px;background:#4b5563;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.appicon:before{content:"";width:15px;height:10px;border:2px solid #fff;border-radius:2px}
-.add{width:30px;height:30px;padding:0;border-radius:8px;font-size:18px;background:#1f2937;color:#fff;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.appicon:before{content:"";width:14px;height:9px;border:2px solid #fff;border-radius:2px}
+.add{width:32px;height:32px;padding:0;border-radius:8px;font-size:18px;background:#1f2937;color:#fff;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s}
 .add:hover{background:#000}
 
-.account{padding:10px 18px 10px 32px;border-top:1px solid #f3f4f6;min-height:52px}
+.account{padding:10px 18px 10px 30px;border-top:1px solid #f3f4f6;min-height:52px}
 .accountname{font-size:13px;font-weight:700;color:#374151;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-/* Expanded Dollar Input Box */
-.amountbox{display:flex;align-items:center;background:#fff;border:1px solid #d1d5db;border-radius:8px;padding:2px 8px;gap:6px;transition:border-color .15s, box-shadow .15s}
+/* DOLLAR INPUT CONTAINER */
+.amountbox{display:flex;align-items:center;background:#fff;border:1px solid #d1d5db;border-radius:8px;padding:3px 8px;gap:6px;transition:border-color .15s, box-shadow .15s}
 .amountbox:focus-within{border-color:#111;box-shadow:0 0 0 2px rgba(0,0,0,0.06)}
 .currency-badge{color:#6b7280;font-size:14px;font-weight:700;user-select:none}
 .usd{min-width:0;flex:1;height:32px;border:0;padding:0;font-size:14px;font-weight:600;outline:none;background:transparent}
-.plusadd{display:none;width:26px;height:26px;padding:0;background:#f3f4f6;color:#1f2937;border:1px solid #e5e7eb;border-radius:6px;font-size:16px;cursor:pointer;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
+.plusadd{display:none;width:28px;height:28px;padding:0;background:#f3f4f6;color:#1f2937;border:1px solid #e5e7eb;border-radius:6px;font-size:16px;cursor:pointer;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
 .plusadd.show{display:flex}
 .plusadd:hover{background:#e5e7eb}
 
-input.rate{height:38px;border:1px solid #d1d5db;border-radius:8px;padding:4px 10px;font-size:14px;font-weight:600;outline:none;text-align:center}
+.rate-wrap{display:flex;align-items:center}
+.rate-label{display:none}
+input.rate{width:100%;height:38px;border:1px solid #d1d5db;border-radius:8px;padding:4px 8px;font-size:14px;font-weight:600;outline:none;text-align:center}
 input.rate:focus{border-color:#111}
 .equals{height:38px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#374151;padding:0 6px}
 .total{font-size:14px;font-weight:800;color:#111;white-space:nowrap}
 .del{width:34px;height:34px;padding:0;background:#fff;color:#6b7280;border:1px solid #e5e7eb;border-radius:8px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
 .del:hover{background:#fee2e2;color:#dc2626;border-color:#fca5a5}
 
-.summary{margin-top:16px;padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:14px 18px}
+/* SUMMARY BOXES */
+.summary{margin-top:14px;padding:14px 18px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:12px 16px}
 .box small{color:#6b7280;font-size:11px;font-weight:700;letter-spacing:0.5px}
-.big{font-size:24px;font-weight:800;margin-top:4px;color:#111}
-.reset{margin-top:14px;background:#1f2937;color:#fff;border:0;border-radius:9px;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;transition:background .15s}
+.big{font-size:22px;font-weight:800;margin-top:4px;color:#111}
+.reset{margin-top:14px;background:#1f2937;color:#fff;border:0;border-radius:9px;padding:11px 18px;font-size:13px;font-weight:700;cursor:pointer;transition:background .15s}
 .reset:hover{background:#000}
 
-@media(max-width:768px){
-  .wrap{overflow-x:auto}
-  .card{min-width:640px}
-  .head,.account{grid-template-columns:1fr 2.4fr 0.55fr 0.8fr 1.15fr 34px;gap:6px;padding:8px 12px}
-  .account{padding-left:20px}
-  .title{font-size:19px}
-  .big{font-size:20px}
-}
-</style>
-</head>
-<body>
-<div class="wrap">
-  <div class="card">
-    <div class="top">
-      <div class="title">Dollar to BDT Calculator</div>
-      <div class="addwrap">
-        <button class="topbtn" id="addApp" title="Add App">+</button>
-        <div class="menu" id="appMenu"></div>
-      </div>
-    </div>
-    <div class="head">
-      <div>APP / ACCOUNT</div>
-      <div>DOLLAR ($)</div>
-      <div>=</div>
-      <div>RATE BDT</div>
-      <div>TOTAL (৳)</div>
-      <div>ACTION</div>
-    </div>
-    <div id="groups"></div>
-  </div>
-
-  <div class="summary">
-    <div class="box">
-      <small>TOTAL USD</small>
-      <div class="big" id="usdTotal">$0.00</div>
-    </div>
-    <div class="box">
-      <small>GRAND TOTAL (৳)</small>
-      <div class="big" id="bdtTotal">৳ 0.00</div>
-    </div>
-  </div>
-
-  <button class="reset" id="reset">Reset All</button>
-</div>
-
-<script>
-(function(){
-var defaultApps=["Zelle","Cash App","Venmo","PayPal","Chime","Apple Pay"];
-var groups=document.getElementById("groups"),menu=document.getElementById("appMenu");
-
-function fmtBDT(n){return "৳ "+n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}
-function fmtUSD(n){return "$"+n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}
-
-// Handles live math gracefully, even with trailing '+' like '20+54+10+'
-function parsePlus(v){
-  v=String(v||"").replace(/\s/g,"");
-  if(!v) return 0;
-  var parts=v.split("+"), sum=0;
-  for(var i=0; i<parts.length; i++){
-    var p=parts[i];
-    if(p!=="" && !isNaN(p)){
-      sum += parseFloat(p);
-    }
+/* PERFECT MOBILE CARD VIEW (Screens 680px and below) */
+@media(max-width:680px){
+  body{padding:10px 8px}
+  .head{display:none} /* Hide desktop table headers */
+  .card{border-radius:14px}
+  
+  .account{
+    display:grid;
+    grid-template-areas:
+      "name  name   del"
+      "input input  input"
+      "eq    rate   total";
+    grid-template-columns: 1fr 1.1fr 1.3fr;
+    gap: 8px 8px;
+    padding: 12px 14px;
+    margin-left: 0;
+    align-items: center;
+    background: #fff;
+    border-top: 1px solid #f0f2f5;
   }
-  return sum;
-}
-
-function createAccount(group,name){
-  var box=group.querySelector(".accounts"), n=box.children.length+1, a=document.createElement("div");
-  a.className="account";
-  a.innerHTML='<b class="accountname"></b>' +
-              '<div class="amountbox">' +
-                '<span class="currency-badge">$</span>' +
-                '<input class="usd" type="text" inputmode="decimal" placeholder="e.g. 20+54+10+7">' +
-                '<button class="plusadd" type="button" title="Add +">+</button>' +
-              '</div>' +
-              '<div class="equals">0</div>' +
-              '<input class="rate" type="number" inputmode="decimal" value="123">' +
-              '<b class="total">৳ 0.00</b>' +
-              '<button class="del" type="button" title="Delete account">×</button>';
-  a.querySelector(".accountname").textContent=name+" "+n;
-  box.appendChild(a);
-  updateGroup(group);
-  calculate();
-}
-
-function createGroup(name){
-  var g=document.createElement("div");
-  g.className="group";
-  g.dataset.name=name;
-  g.innerHTML='<div class="grouphead">' +
-                '<div class="groupname"><span class="appicon"></span><span class="gtitle"></span></div>' +
-                '<button class="add" type="button" title="Add account">+</button>' +
-              '</div>' +
-              '<div class="accounts"></div>';
-  g.querySelector(".add").onclick=function(){createAccount(g,name)};
-  groups.appendChild(g);
-  createAccount(g,name);
-}
-
-function updateGroup(g){
-  var acc=g.querySelectorAll(".account"),name=g.dataset.name;
-  g.querySelector(".gtitle").textContent=name+" ("+acc.length+")";
-  acc.forEach(function(a,i){
-    a.querySelector(".accountname").textContent=name+" "+(i+1);
-  });
-}
-
-function refreshMenu(){
-  menu.innerHTML="";
-  var existing={};
-  groups.querySelectorAll(".group").forEach(function(g){existing[g.dataset.name]=true});
-  defaultApps.forEach(function(name){
-    if(!existing[name]){
-      var b=document.createElement("button");
-      b.type="button";
-      b.textContent="+  "+name;
-      b.onclick=function(){createGroup(name);menu.classList.remove("open");refreshMenu()};
-      menu.appendChild(b);
-    }
-  });
-  var custom=document.createElement("button");
-  custom.type="button";
-  custom.textContent="+  Custom App";
-  custom.onclick=function(){
-    var n=prompt("Enter app name:");
-    if(n&&n.trim()){createGroup(n.trim());menu.classList.remove("open");refreshMenu()}
-  };
-  menu.appendChild(custom);
-}
-
-function calculate(){
-  var U=0,B=0;
-  groups.querySelectorAll(".account").forEach(function(a){
-    var u=parsePlus(a.querySelector(".usd").value);
-    var r=Number(a.querySelector(".rate").value)||0;
-    var t=u*r;
-    a.querySelector(".equals").textContent=u.toLocaleString("en-US",{maximumFractionDigits:2});
-    a.querySelector(".total").textContent=fmtBDT(t);
-    U+=u;
-    B+=t;
-  });
-  document.getElementById("usdTotal").textContent=fmtUSD(U);
-  document.getElementById("bdtTotal").textContent=fmtBDT(B);
-}
-
-document.addEventListener("input",function(e){
-  if(e.target.classList.contains("usd")){
-    e.target.parentElement.querySelector(".plusadd").classList.toggle("show",e.target.value.trim()!=="");
-    calculate();
+  
+  .accountname{
+    grid-area: name;
+    font-size: 14px;
+    color: #111;
   }
-  if(e.target.classList.contains("rate"))calculate();
-});
-
-document.addEventListener("click",function(e){
-  if(e.target.classList.contains("plusadd")){
-    var i=e.target.parentElement.querySelector(".usd");
-    if(i.value.trim()!==""){
-      i.value=i.value.trim()+"+";
-      e.target.classList.remove("show");
-      i.focus();
-      calculate();
-    }
+  
+  .del{
+    grid-area: del;
+    justify-self: end;
+    width: 32px;
+    height: 32px;
   }
-  if(e.target.classList.contains("del")){
-    var g=e.target.closest(".group"),box=g.querySelector(".accounts"),a=e.target.closest(".account");
-    if(box.children.length>1){
-      a.remove();
-      updateGroup(g);
-    }else{
-      g.remove();
-    }
-    refreshMenu();
-    calculate();
+  
+  /* Full Width Dollar Box on Mobile for maximum typing space */
+  .amountbox{
+    grid-area: input;
+    width: 100%;
+    height: 42px;
+    padding: 2px 10px;
   }
-});
-
-document.getElementById("addApp").onclick=function(e){
-  e.stopPropagation();
-  refreshMenu();
-  menu.classList.toggle("open");
-};
-
-document.addEventListener("click",function(e){
-  if(!e.target.closest(".addwrap"))menu.classList.remove("open");
-});
-
-document.getElementById("reset").onclick=function(){
-  groups.innerHTML="";
-  defaultApps.forEach(createGroup);
-  refreshMenu();
-  calculate();
-};
-
-defaultApps.forEach(createGroup);
-refreshMenu();
-calculate();
-})();
-</script>
-</body>
-</html>
+  .usd{
+    font-size: 16px; /* Prevents auto-zoom on iOS */
+    height: 36px;
+  }
+  .plusadd{
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+  }
+  
+  .equals{
+    grid-area: eq;
+    height: 36px;
+    font-size: 12px;
+    background: #f3f4f6;
+    border-color: #e5e7eb;
+    border-radius: 7px;
+  }
+  
+  .rate-wrap{
+    grid-area: rate;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .rate-label{
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+  }
+  .rate-wrap input.rate{
+    height: 36px;
+    font-size: 15px;
+    border-radius: 7px;
+    min-width: 0;
+  }
+  
+  .total{
+    grid-area: total;
+    font-size: 14px;
+    justify-self: end;
+    text-align: right;
+    color: #0
