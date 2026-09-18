@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Dollar to BDT Calculator</title>
 <style>
 *{box-sizing:border-box}
@@ -130,7 +133,8 @@ input.rate:focus{border-color:#111827}
   font-weight:900;
   color:#047857;
   white-space:nowrap;
-  overflow:visible; /* Prevents dot dot truncation */
+  overflow:visible !important;
+  text-overflow:clip !important;
   letter-spacing:-0.4px;
 }
 
@@ -162,7 +166,7 @@ input.rate:focus{border-color:#111827}
   .usd{font-size:12.5px}
   input.rate{width:48px;height:30px;font-size:12px;padding:1px}
   .equals{height:30px;font-size:11px}
-  .total{font-size:12px;letter-spacing:-0.4px}
+  .total{font-size:12px;letter-spacing:-0.4px;overflow:visible !important;text-overflow:clip !important}
   .del{width:26px;height:26px;font-size:15px}
   
   .summary{padding:10px;gap:8px}
@@ -249,7 +253,7 @@ function createAccount(group,name){
               '</div>' +
               '<div class="equals">0</div>' +
               '<input class="rate" type="number" inputmode="decimal" value="123">' +
-              '<b class="total">৳ 0.00</b>' +
+              '<b class="total" style="overflow:visible !important; text-overflow:clip !important; font-weight:900;">৳ 0.00</b>' +
               '<button class="del" type="button" title="Delete account">×</button>';
   a.querySelector(".accountname").textContent=name+" "+n;
   box.appendChild(a);
